@@ -1,24 +1,22 @@
-int getValue(char c) {
-    switch (c) {
-        case 'I': return 1;
-        case 'V': return 5;
-        case 'X': return 10;
-        case 'L': return 50;
-        case 'C': return 100;
-        case 'D': return 500;
-        case 'M': return 1000;
-        default:  return 0;
-    }
-}
-
 int romanToInt(char* s) {
     int total = 0;
+    int prev = 0;
 
-    for (int i = 0; s[i] != '\0'; i++) {
-        int current = getValue(s[i]);
-        int next = getValue(s[i + 1]);
+    while (*s) {
+        int current;
 
-        total += (current < next) ? -current : current;
+        switch (*s++) {
+            case 'I': current = 1;    break;
+            case 'V': current = 5;    break;
+            case 'X': current = 10;   break;
+            case 'L': current = 50;   break;
+            case 'C': current = 100;  break;
+            case 'D': current = 500;  break;
+            default:  current = 1000; break;
+        }
+
+        total += current > prev ? current - 2 * prev : current;
+        prev = current;
     }
 
     return total;
